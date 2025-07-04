@@ -10,6 +10,11 @@ jobs:
     runs-on: [self-hosted, linux, myke]
 
     steps:
-    - name: Chequear estado
+    - name: Chequear estado result
       run: |
-        curl -f http://localhost:3000/healthz && echo "✅ App OK" || echo "❌ App caída"
+        curl -f http://localhost:3000/healthz && echo "\n✅ Result OK" || echo "\n❌ Result caído"
+
+    - name: Chequear estado vote
+      run: |
+        curl -f http://localhost/healthz && echo "\n✅ Vote OK" || echo "\n❌ Vote caído"
+        
