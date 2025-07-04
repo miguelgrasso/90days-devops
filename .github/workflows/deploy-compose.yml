@@ -15,12 +15,14 @@ jobs:
 
  #   - name: Parar servicios anteriores
  #     run: cd "${GITHUB_WORKSPACE}" && docker compose -f roxs-voting-app/docker-compose.yml down -v || true
+    - name: Entrar a directorio de trabajo
+      run: cd "${GITHUB_WORKSPACE}/roxs-voting-app"
 
     - name: Construir servicios
-      run: docker compose -f roxs-voting-app/docker-compose.yml build
+      run: docker compose -f docker-compose.yml build
 
     - name: Levantar servicios
-      run: docker compose -f roxs-voting-app/docker-compose.yml up -d
+      run: docker compose -f docker-compose.yml up -d
 
     #- name: Verificar app
     #  run: curl -f http://localhost:3000/
