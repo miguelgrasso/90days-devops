@@ -1,0 +1,15 @@
+name: Monitoreo Simple
+
+on:
+  schedule:
+    - cron: '*/2 * * * *'  # Cada 2 horas
+  workflow_dispatch:
+
+jobs:
+  check-app:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Chequear estado
+      run: |
+        curl -f http://localhost:3000/healthz && echo "✅ App OK" || echo "❌ App caída"
