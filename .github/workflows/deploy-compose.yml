@@ -13,8 +13,8 @@ jobs:
     - name: Checkout código
       uses: actions/checkout@v4
 
-    - name: Parar servicios anteriores
-      run: cd "${GITHUB_WORKSPACE}" && docker compose -f roxs-voting-app/docker-compose.yml down -v || true
+ #   - name: Parar servicios anteriores
+ #     run: cd "${GITHUB_WORKSPACE}" && docker compose -f roxs-voting-app/docker-compose.yml down -v || true
 
     - name: Construir servicios
       run: docker compose -f roxs-voting-app/docker-compose.yml build
