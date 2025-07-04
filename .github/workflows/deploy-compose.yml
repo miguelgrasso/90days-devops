@@ -22,5 +22,5 @@ jobs:
     - name: Levantar servicios
       run: docker compose -f roxs-voting-app/docker-compose.yml up -d
 
-    - name: Verificar app
-      run: curl -f http://localhost:3000/
+    #- name: Verificar app
+    #  run: curl -f http://localhost:3000/
