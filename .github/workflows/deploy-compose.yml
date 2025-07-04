@@ -17,10 +17,10 @@ jobs:
       run: docker compose down -v || true
 
     - name: Construir servicios
-      run: docker compose -f docker-compose.yml build
+      run: docker compose -f roxs-voting-app/docker-compose.yml build
 
     - name: Levantar servicios
-      run: docker compose -f docker-compose.yml up -d
+      run: docker compose -f roxs-voting-app/docker-compose.yml up -d
 
     - name: Verificar app
       run: curl -f http://localhost:3000/
