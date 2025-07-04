@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - voting-network
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-voting}
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - voting-network
+
+  worker:
+    build: ./worker
+    depends_on:
+      - redis
+      - postgres
+    environment:
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      DATABASE_HOST: ${DATABASE_HOST:-postgres}
+      DATABASE_NAME: ${DATABASE_NAME:-voting}
+      DATABASE_USER: ${DATABASE_USER:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-password}
+    networks:
+      - voting-network
+
+  result:
+    build: ./result
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_HOST: ${DATABASE_HOST:-postgres}
+      DATABASE_NAME: ${DATABASE_NAME:-voting}
+      DATABASE_USER: ${DATABASE_USER:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-password}
+    networks:
+      - voting-network
+
+  vote:
+    build: ./vote
+    depends_on:
+      - redis
+      - postgres
+      - worker
+    ports:
+      - "80:80"
+    environment:
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      DATABASE_HOST: ${DATABASE_HOST:-postgres}
+      DATABASE_NAME: ${DATABASE_NAME:-voting}
+      DATABASE_USER: ${DATABASE_USER:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-password}
+      OPTION_A: ${OPTION_A:-Cats}
+      OPTION_B: ${OPTION_B:-Dogs}
+    networks:
+      - voting-network
+
+volumes:
+  postgres_data:
+
+networks:
+  voting-network:
+    driver: bridge
