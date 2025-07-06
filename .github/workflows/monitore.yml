@@ -2,7 +2,7 @@ name: Monitoreo Simple
 
 on:
   schedule:
-    - cron: '*/2 * * * *'  # Cada 2 horas
+   # - cron: '*/2 * * * *'  # Cada 2 horas
   workflow_dispatch:
 
 jobs:
